@@ -6,9 +6,8 @@ fun main() {
             }
 
     fun part2(input: List<Int>): Int =
-        input.asSequence()
-            .windowed(3)
-            .map {window -> window.sum() }
+        input.windowed(3)
+            .map { window -> window.sum() }
             .zipWithNext()
             .count {
                 it.second > it.first
