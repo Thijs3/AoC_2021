@@ -1,15 +1,12 @@
 fun main() {
     fun part1(input: List<String>): Int {
-        val l = input[0].length
+        val l: Int = input[0].length
+        val half: Int = input.size / 2
         var epsilonRate = ""
         var gamma = ""
         for (pos in 0 until l) {
-            var countOnes = 0
-            var countZeros = 0
-            for (row in input) {
-                if (row[pos] == '0') countZeros += 1 else countOnes += 1
-            }
-            if (countOnes > countZeros) {
+            val countOnes = input.count { it[pos] == '1' }
+            if (countOnes > half) {
                 gamma += '1'
                 epsilonRate += '0'
             } else {
@@ -17,14 +14,14 @@ fun main() {
                 epsilonRate += '1'
             }
         }
-        return Integer.parseInt(epsilonRate, 2) * Integer.parseInt(gamma, 2)
+        return epsilonRate.toInt(2) * gamma.toInt(2)
     }
 
     fun part2(input: List<String>): Int {
         val (copyInput) = input
         val oxygen = copyInput.foldIndexed(input) { i, acc, _ ->
-                val (zeros, ones) = acc.partition { it[i] == '0' }
-                if (zeros.size > ones.size) zeros else ones
+            val (zeros, ones) = acc.partition { it[i] == '0' }
+            if (zeros.size > ones.size) zeros else ones
         }.first().toInt(2)
 
         val co2 = copyInput.foldIndexed(input) { i, acc, _ ->
@@ -43,4 +40,3 @@ fun main() {
     println(part1(input))
     println(part2(input))
 }
-
