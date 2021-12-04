@@ -58,15 +58,16 @@ fun main() {
 
     fun part2(input: List<String>): Int {
         val numbers: List<Int> = readIntsCommaSeparated(input)
-        val boards: List<Board> = readBoards(input)
+        val boards: MutableList<Board> = readBoards(input).toMutableList()
 
         for (number in numbers) {
             for (board in boards) {
                 board.markValue(number)
-                if (boards.count { it.hasWon() } == boards.size) {
+                if (board.hasWon() && boards.size == 1) {
                     return number * board.sumOfUnmarkedCells()
                 }
             }
+            boards.removeAll { it.hasWon() }
         }
         return -1
     }
