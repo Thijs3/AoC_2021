@@ -13,6 +13,12 @@ fun readStrAndInt(name: String) = readInput(name)
     .map { it.split(" ") }
     .map { line -> Pair(line[0], line[1].toInt()) }
 
+fun readIntsCommaSeparated(inputLines: List<String>): List<Int> = inputLines
+    .first()
+    .split(",")
+    .map { number ->
+        number.toInt() }
+
 /**
  * Converts string to md5 hash.
  */
