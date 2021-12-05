@@ -1,40 +1,35 @@
 fun main() {
 
     class Line(private val segment: Pair<Pair<Int, Int>, Pair<Int, Int>>) {
-        fun isHorizontal(): Boolean =
-            segment.first.second == segment.second.second
+        val isHorizontal = segment.first.second == segment.second.second
+        val isVertical = segment.first.first == segment.second.first
 
-        fun isVertical(): Boolean =
-            segment.first.first == segment.second.first
-
-        fun isRelevant(): Boolean =
-            isVertical() || isHorizontal()
-
-        fun getCoords(): List<Pair<Int, Int>> {
+        fun getCoordinates(): List<Pair<Int, Int>> {
             val result = mutableListOf<Pair<Int, Int>>()
-            val (fh, lh, fv, lv) = listOf(segment.first.first, segment.second.first, segment.first.second, segment.second.second)
-            if (isHorizontal()) {
+            val (fh, lh, fv, lv) =
+                listOf(segment.first.first, segment.second.first, segment.first.second, segment.second.second)
+            if (isHorizontal) {
                 val hRange = if (fh < lh) fh..lh else lh..fh
                 for (i in hRange) {
                     result.add(i to fv)
                 }
-            } else if (isVertical()) {
+            } else if (isVertical) {
                 val vRange = if (fv < lv) fv..lv else lv..fv
                 for (i in vRange) {
                     result.add(fh to i)
                 }
             } else {
-                val sl = kotlin.math.abs(fh - lh)
-                val hStart = minOf(fh, lh)
-                val vStart = if (fh < lh) fv else lv
+                val segmentLength = kotlin.math.abs(fh - lh)
+                val horizontalStart = minOf(fh, lh)
+                val verticalStart = if (fh < lh) fv else lv
                 val goesUp = if (fh < lh) fv < lv else lv <= fv
                 if (goesUp) {
-                    for (j in 0..sl) {
-                        result.add(hStart + j to (vStart + j))
+                    for (i in 0..segmentLength) {
+                        result.add(horizontalStart + i to (verticalStart + i))
                     }
                 } else {
-                    for (j in 0..sl) {
-                        result.add(hStart + j to (vStart - j))
+                    for (i in 0..segmentLength) {
+                        result.add(horizontalStart + i to (verticalStart - i))
                     }
                 }
             }
@@ -46,42 +41,32 @@ fun main() {
         .map { line -> line.split(" -> ") }
         .map { segment ->
             Line(
-                (segment[0].split(",")[0].toInt() to segment[0].split(",")[1].toInt()) to (segment[1].split(",")[0].toInt() to segment[1].split(",")[1].toInt())
+                (segment[0].split(",")[0].toInt() to segment[0].split(",")[1].toInt()) to
+                    (segment[1].split(",")[0].toInt() to segment[1].split(",")[1].toInt())
             )
         }
 
-    class Ocean(private val width: Int) {
-        val floor = MutableList(width) { MutableList(width) { 0 } }
-        fun countDangerousCells(): Int =
-            floor.sumOf { row ->
-                row.count { cell -> cell >= 2 }
-            }
-    }
-
-    fun part1(input: List<Line>): Int {
-        val ocean = Ocean(1000)
-        val validLines = input.filter { it.isRelevant() }
-        for (line in validLines) {
-            for (c in line.getCoords()) {
-                ocean.floor[c.first][c.second] += 1
+    fun solve(lines: List<Line>, excludeDiagonals: Boolean): Int {
+        val oceanFloor = MutableList(1000) { MutableList(1000) { 0 } }
+        val filteredLines: List<Line> = if (excludeDiagonals) lines.filter { it.isVertical || it.isHorizontal } else lines
+        for (line in filteredLines) {
+            for (c in line.getCoordinates()) {
+                oceanFloor[c.first][c.second] += 1
             }
         }
-        return ocean.countDangerousCells()
+        return oceanFloor.sumOf {
+            it.count { value -> value >= 2 }
+        }
     }
 
-    fun part2(input: List<Line>): Int {
-        val ocean = Ocean(1000)
-        for (line in input) {
-            for (c in line.getCoords()) {
-                ocean.floor[c.first][c.second] += 1
-            }
-        }
-        return ocean.countDangerousCells()
-    }
+    fun part1(input: List<Line>): Int = solve(input, true)
+
+    fun part2(input: List<Line>): Int = solve(input, false)
 
     val input = readLineSegments("Day05")
     val testInput = readLineSegments("Day05_test")
     check(part1(testInput) == 15)
+    check(part2(testInput) == 17)
     println(part1(input))
     println(part2(input))
 }
