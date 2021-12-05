@@ -17,7 +17,8 @@ fun readIntsCommaSeparated(inputLines: List<String>): List<Int> = inputLines
     .first()
     .split(",")
     .map { number ->
-        number.toInt() }
+        number.toInt()
+    }
 
 /**
  * Converts string to md5 hash.
