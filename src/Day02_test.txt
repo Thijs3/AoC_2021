@@ -1,4 +1,0 @@
-forward 1
-down 13
-up 10
-forward 5
