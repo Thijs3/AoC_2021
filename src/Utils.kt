@@ -9,6 +9,9 @@ fun readInput(name: String) = File("src", "$name.txt").readLines()
 
 fun readInts(name: String) = readInput(name).map { it.toInt() }
 
+fun readIntsOneLine(name: String) = readInput(name)[0].split(',').map { it.toInt() }
+fun readBigIntsOneLine(name: String) = readInput(name)[0].split(',').map { it.toBigInteger() }
+
 fun readStrAndInt(name: String) = readInput(name)
     .map { it.split(" ") }
     .map { line -> Pair(line[0], line[1].toInt()) }
