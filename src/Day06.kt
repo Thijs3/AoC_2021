@@ -8,6 +8,7 @@ fun main() {
             if (i <= j) dp[i][j] = BigInteger.ONE else dp[i][j] = dp[i - j - 1][6] + dp[i - j - 1][8]
         }
     }
+    println(dp)
 
     fun solve(input: List<Int>, days: Int): BigInteger = input.sumOf { dp[days][it] }
 
