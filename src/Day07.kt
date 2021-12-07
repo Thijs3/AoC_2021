@@ -1,26 +1,17 @@
-import java.lang.Integer.MAX_VALUE
 import kotlin.math.abs
 
 fun main() {
-    fun calculateCost(input: List<Int>, costPerDistance: List<Int>): Int {
-        var cost: Int = MAX_VALUE
-        for (i in 1 until input.maxOf { it }) {
-            val newCost = input.sumOf { costPerDistance[abs(i - it)] }
-            if (newCost < cost) {
-                cost = newCost
-            }
-        }
-        return cost
-    }
+    fun calculateMinCost(input: List<Int>, costPerDistance: List<Int>): Int =
+        (1 until (input.maxOf { it })).minOf { index -> input.sumOf { costPerDistance[abs(index - it)] } }
 
     fun part1(input: List<Int>): Int {
         val costPerDistance = List(input.maxOf { it }) { 0 }.mapIndexed { index, _ -> index }
-        return calculateCost(input, costPerDistance)
+        return calculateMinCost(input, costPerDistance)
     }
 
     fun part2(input: List<Int>): Int {
         val costPerDistance = List(input.maxOf { it }) { 0 }.mapIndexed { index, _ -> (index * (index + 1)) / 2 }
-        return calculateCost(input, costPerDistance)
+        return calculateMinCost(input, costPerDistance)
     }
 
     val input = readIntsOneLine("Day07")
