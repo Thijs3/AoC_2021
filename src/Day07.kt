@@ -2,23 +2,10 @@ import java.lang.Integer.MAX_VALUE
 import kotlin.math.abs
 
 fun main() {
-
-    fun part1(input: List<Int>): Int {
-        val sortedInput = input.sorted()
-        val sz = input.size
-        val mx = sortedInput.maxOf { it }
-        var currentIndex = 0
-        var cost = sortedInput.sum()
-        var newCost = cost
-        var smaller: Int
-        var larger: Int
-        for (i in 1 until mx) {
-            while (sortedInput[currentIndex] < i) {
-                currentIndex += 1
-            }
-            smaller = currentIndex
-            larger = sz - smaller
-            newCost += smaller - larger
+    fun calculateCost(input: List<Int>, costPerDistance: List<Int>): Int {
+        var cost: Int = MAX_VALUE
+        for (i in 1 until input.maxOf { it }) {
+            val newCost = input.sumOf { costPerDistance[abs(i - it)] }
             if (newCost < cost) {
                 cost = newCost
             }
@@ -26,18 +13,14 @@ fun main() {
         return cost
     }
 
+    fun part1(input: List<Int>): Int {
+        val costPerDistance = List(input.maxOf { it }) { 0 }.mapIndexed { index, _ -> index }
+        return calculateCost(input, costPerDistance)
+    }
+
     fun part2(input: List<Int>): Int {
-        val mx = input.maxOf { it }
-        val costPerDistance = MutableList(mx + 1) { 0 }.mapIndexed { index, _ -> (index * (index + 1)) / 2 }
-        var cost: Int = MAX_VALUE
-        for (i in 1 until mx) {
-            val newCost = input.sumOf { costPerDistance[abs(i - it)] }
-            if (newCost < cost) {
-                cost = newCost
-            }
-        }
-        println(costPerDistance)
-        return cost
+        val costPerDistance = List(input.maxOf { it }) { 0 }.mapIndexed { index, _ -> (index * (index + 1)) / 2 }
+        return calculateCost(input, costPerDistance)
     }
 
     val input = readIntsOneLine("Day07")
