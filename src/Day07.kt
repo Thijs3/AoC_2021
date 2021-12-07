@@ -1,17 +1,15 @@
 import kotlin.math.abs
 
 fun main() {
-    fun calculateMinCost(input: List<Int>, costPerDistance: List<Int>): Int =
-        (1 until (input.maxOf { it })).minOf { index -> input.sumOf { costPerDistance[abs(index - it)] } }
-
     fun part1(input: List<Int>): Int {
         val costPerDistance = List(input.maxOf { it }) { 0 }.mapIndexed { index, _ -> index }
-        return calculateMinCost(input, costPerDistance)
+        return (1 until (input.maxOf { it })).minOf { index -> input.sumOf { costPerDistance[abs(index - it)] } }
     }
 
     fun part2(input: List<Int>): Int {
         val costPerDistance = List(input.maxOf { it }) { 0 }.mapIndexed { index, _ -> (index * (index + 1)) / 2 }
-        return calculateMinCost(input, costPerDistance)
+        val n = input.sum() / input.size
+        return (n..(n + 1)).minOf { index -> input.sumOf { costPerDistance[abs(index - it)] } }
     }
 
     val input = readIntsOneLine("Day07")
