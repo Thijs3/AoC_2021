@@ -3,13 +3,16 @@ import kotlin.math.abs
 fun main() {
     fun part1(input: List<Int>): Int {
         val costPerDistance = List(input.maxOf { it }) { 0 }.mapIndexed { index, _ -> index }
-        return (1 until (input.maxOf { it })).minOf { index -> input.sumOf { costPerDistance[abs(index - it)] } }
+        return (1 until (input.maxOf { it })).minOf { index ->
+            input.sumOf { costPerDistance[abs(index - it)] } }
     }
 
     fun part2(input: List<Int>): Int {
         val costPerDistance = List(input.maxOf { it }) { 0 }.mapIndexed { index, _ -> (index * (index + 1)) / 2 }
         val n = input.sum() / input.size
-        return (n..(n + 1)).minOf { index -> input.sumOf { costPerDistance[abs(index - it)] } }
+        val range = (n - 1)..(n + 1)
+        return range.minOf { index ->
+            input.sumOf { costPerDistance[abs(index - it)] } }
     }
 
     val input = readIntsOneLine("Day07")
