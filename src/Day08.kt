@@ -21,17 +21,13 @@ fun main() {
                 3 -> "7"
                 4 -> "4"
                 7 -> "8"
-                5 -> if (numberOfCommonLetters(digit, puzzle.examples, 4) == 2) {
-                    "2"
-                } else if (numberOfCommonLetters(digit, puzzle.examples, 2) == 2) {
-                    "3"
-                } else { "5" }
+                5 -> if (numberOfCommonLetters(digit, puzzle.examples, 4) == 2) "2"
+                else if (numberOfCommonLetters(digit, puzzle.examples, 2) == 2) "3"
+                else "5"
 
-                else -> if (numberOfCommonLetters(digit, puzzle.examples, 2) == 1) {
-                    "6"
-                } else if (numberOfCommonLetters(digit, puzzle.examples, 4) == 4) {
-                    "9"
-                } else { "0" }
+                else -> if (numberOfCommonLetters(digit, puzzle.examples, 2) == 1) "6"
+                else if (numberOfCommonLetters(digit, puzzle.examples, 4) == 4) "9"
+                else "0"
             }
         }
         return result.joinToString("").toInt()
