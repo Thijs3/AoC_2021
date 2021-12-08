@@ -1,13 +1,51 @@
 fun main() {
-    fun part1(input: List<Int>): Int =
-        input.size
+    data class DisplayPuzzle(val examples: List<String>, val answer: List<String>)
 
-    fun part2(input: List<Int>): Int =
-        input.size
+    fun readDisplayDigits(name: String) = readInput(name)
+        .map { line ->
+            line.split("|")
+        }
+        .map { DisplayPuzzle(it[0].split(" "), it[1].split(" ")) }
 
-    val input = readInts("Day01")
-    val testInput = readInts("Day01_test")
-    check(part1(testInput) == 6)
+    fun intersectSize(string1: String, string2: String): Int {
+        val s1 = (string1).toCharArray().toMutableSet()
+        s1.retainAll(string2.toCharArray().toMutableSet())
+        return s1.size
+    }
+
+    fun determineNumbers(puzzle: DisplayPuzzle): Int {
+        val result = puzzle.answer.map { ans ->
+            when (ans.length) {
+                2 -> "1"
+                3 -> "7"
+                4 -> "4"
+                7 -> "8"
+                5 -> if (intersectSize(ans, puzzle.examples.find { it.length == 4 }!!) == 2) {
+                    "2"
+                } else if (intersectSize(ans, puzzle.examples.find { it.length == 2 }!!) == 2) {
+                    "3"
+                } else { "5" }
+
+                else -> if (intersectSize(ans, puzzle.examples.find { it.length == 2 }!!) == 1) {
+                    "6"
+                } else if (intersectSize(ans, puzzle.examples.find { it.length == 4 }!!) == 4) {
+                    "9"
+                } else { "0" }
+            }
+        }
+        return result.joinToString("").toInt()
+    }
+
+    fun part1(input: List<DisplayPuzzle>): Int =
+        input.sumOf { it.answer.count { digit -> digit.length in listOf(2, 3, 4, 7) } }
+
+    fun part2(input: List<DisplayPuzzle>): Int =
+        input.sumOf { puzzle -> determineNumbers(puzzle) }
+
+    val input = readDisplayDigits("Day08")
+    val testInput = readDisplayDigits("Day08_test")
+    check(part1(testInput) == 26)
+    check(part2(testInput) == 61229)
     println(part1(input))
     println(part2(input))
 }
