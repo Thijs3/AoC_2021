@@ -22,7 +22,7 @@ fun readIntsCommaSeparated(inputLines: List<String>): List<Int> = inputLines
     .map { number ->
         number.toInt()
     }
-
+fun readGrid(name: String): List<List<Int>> = readInput(name).map { line -> line.chunked(1).map { it.toInt() } }
 /**
  * Converts string to md5 hash.
  */
