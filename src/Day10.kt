@@ -1,5 +1,3 @@
-import java.math.BigInteger
-
 fun main() {
     val openingCharacters = listOf('<', '{', '[', '(')
     val closingCharacters = listOf('>', '}', ']', ')')
