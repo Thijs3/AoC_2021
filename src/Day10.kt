@@ -39,7 +39,7 @@ fun main() {
                 }
             }.fold(0L) { acc, it -> acc * 5L + it }
 
-    fun List<Long>.findMedian(): Long = this.sortedBy{it}[this.size / 2]
+    fun List<Long>.findMedian(): Long = this.sortedBy { it }[this.size / 2]
 
     fun part1(input: List<String>): Int {
         var score = 0
