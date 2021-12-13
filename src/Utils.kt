@@ -24,8 +24,10 @@ fun readIntsCommaSeparated(inputLines: List<String>): List<Int> = inputLines
     }
 fun readGrid(name: String): List<List<Int>> = readInput(name).map { line -> line.chunked(1).map { it.toInt() } }
 
-fun readMutableGrid(name: String):  MutableList<MutableList<Int>> = readInput(name).map { line -> line.chunked(1)
-    .map { it.toInt() }.toMutableList()}.toMutableList()
+fun readMutableGrid(name: String): MutableList<MutableList<Int>> = readInput(name).map { line ->
+    line.chunked(1)
+        .map { it.toInt() }.toMutableList()
+}.toMutableList()
 /**
  * Converts string to md5 hash.
  */
