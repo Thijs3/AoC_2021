@@ -53,7 +53,7 @@ fun main() {
             if (pair.first == 'x') foldX(acc, pair.second) else foldY(acc, pair.second)
         }
         val width = finalMarked.maxOf { it.first + 1 }
-        val height = finalMarked.maxOf {it.second + 1 }
+        val height = finalMarked.maxOf { it.second + 1 }
         val grid = MutableList(height) { MutableList(width) { "." } }
         for (mark in finalMarked) grid[mark.second][mark.first] = "#"
         return grid
