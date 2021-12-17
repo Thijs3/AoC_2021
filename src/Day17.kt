@@ -24,7 +24,7 @@ fun main() {
         for (x in startX..(targetZone.maxX + 1)) {
             for (y in (targetZone.minY)..(-(targetZone.minY-1))) {
                 for (step in 0..maxSteps) {
-                    val preX = if (step > x) (x / 2) * (x + 1) else (step / 2.00) * (x + (x - (step - 1)))
+                    val preX = if (step > x) (x / 2.00) * (x + 1) else (step / 2.00) * (x + (x - (step - 1)))
                     val px = preX.toInt()
                     val py = ((step / 2.00) * (y + (y - (step - 1)))).toInt()
                     if (px in xRange && py in yRange) {
