@@ -12,11 +12,7 @@ fun main() {
         return TargetZone(output[0], output[1], output[2], output[3])
     }
 
-    fun part1(input: String): Int {
-        val targetZone = readTZ(input)
-        val y = targetZone.minY * - 1
-        return y * (y - 1) / 2
-    }
+    fun part1(input: String): Int = (- readTZ(input).minY).let { it * (it - 1) / 2 }
 
     fun part2(input: String): Int {
         val targetZone = readTZ(input)
@@ -28,7 +24,7 @@ fun main() {
         for (x in startX..(targetZone.maxX + 1)) {
             for (y in (targetZone.minY)..(-(targetZone.minY-1))) {
                 for (step in 0..maxSteps) {
-                    val preX = if (step > x) (x/2) * (x + 1) else (step / 2.00) * (x + (x - (step - 1)))
+                    val preX = if (step > x) (x / 2) * (x + 1) else (step / 2.00) * (x + (x - (step - 1)))
                     val px = preX.toInt()
                     val py = ((step / 2.00) * (y + (y - (step - 1)))).toInt()
                     if (px in xRange && py in yRange) {
@@ -38,7 +34,6 @@ fun main() {
                     if (py < targetZone.minY || x > targetZone.maxX) {
                         break
                     }
-
                 }
             }
         }
