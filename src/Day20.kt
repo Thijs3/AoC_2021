@@ -1,17 +1,15 @@
 fun main() {
 
-    fun List<String>.findNeighbours(row: Int, col: Int, char: Char): List<Char> =
-        listOf(
-            if (row > 0 && col > 0) this[row - 1][col - 1] else char,
-            if (row > 0) this[row - 1][col] else char,
-            if (row > 0 && col < this[0].lastIndex) this[row - 1][col + 1] else char,
-            if (col > 0) this[row][col - 1] else char,
-            this[row][col],
-            if (col < this[0].lastIndex) this[row][col + 1] else char,
-            if (row < this.size - 1 && col > 0) this[row + 1][col - 1] else char,
-            if (row < this.size - 1) this[row + 1][col] else char,
-            if (row < this.size - 1 && col < this[0].lastIndex) this[row + 1][col + 1] else char
-        )
+    fun List<String>.findNeighbours(row: Int, col: Int, char: Char): List<Char> {
+        val result = mutableListOf<Char>()
+        for (r in (row - 1)..(row + 1)) {
+            for (c in (col - 1)..(col + 1)) {
+                val new = this.getOrNull(r)?.getOrNull(c)
+                result.add(new ?: char)
+            }
+        }
+        return result
+    }
 
     fun List<String>.padWithChar(char: Char): List<String> =
         map { it.padStart(it.length + 1, char).padEnd(it.length + 2, char) }
@@ -21,21 +19,19 @@ fun main() {
                 add(0, char.toString().repeat(this[0].length))
             }
 
-    fun List<Char>.enhance(enhancer: String): Char {
-        val index = this.joinToString("").toInt(2)
-        return enhancer[index]
-    }
+    fun List<Char>.enhance(enhancer: String) =
+        enhancer[joinToString("").toInt(2)]
 
     fun List<String>.enhance(enhancer: String): List<String> {
-        val defaultChar = this[0][0]
-        val enhancedImage = mapIndexed { row, string ->
+        val defaultChar = this.first().first()
+        val paddedImage = this.padWithChar(defaultChar)
+        val enhancedImage = paddedImage.mapIndexed { row, string ->
             string.mapIndexed { col, _ ->
-                findNeighbours(row, col, defaultChar)
+                paddedImage.findNeighbours(row, col, defaultChar)
                     .enhance(enhancer)
             }.joinToString("")
         }
-        val newDefaultChar = enhancedImage[0][0]
-        return enhancedImage.padWithChar(newDefaultChar)
+        return enhancedImage
     }
 
     fun List<String>.countLightPixels() = sumOf { string ->
@@ -55,11 +51,11 @@ fun main() {
     fun String.toBinary() = replace('.', '0').replace('#', '1')
 
     fun solve(input: List<String>, times: Int): Int {
-        val enhancer = input[0].toBinary()
-        val image = input.subList(2, input.size).map { it.toBinary() }
-        val paddedImage = image.padWithChar('0').padWithChar('0')
+        val enhancer = input.first().toBinary()
+        val image = input.drop(2).map { it.toBinary() }
+        val paddedImage = image.padWithChar('0')
         val enhanced = paddedImage.enhanceTimes(enhancer, times)
-        //enhanced.prettyPrint() // sadly does not look like much :(
+        // enhanced.prettyPrint() // sadly does not look like much :(
         return enhanced.countLightPixels()
     }
     fun part1(input: List<String>): Int = solve(input, 2)
