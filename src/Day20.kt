@@ -44,11 +44,8 @@ fun main() {
         string.count { it == '1' }
     }
 
-    fun List<String>.enhanceTimes(enhancer: String, times: Int): List<String> {
-        val new = enhance(enhancer)
-        if (times == 1) return new
-        return new.enhanceTimes(enhancer, times - 1)
-    }
+    fun List<String>.enhanceTimes(enhancer: String, times: Int): List<String> =
+        (0 until times).fold(this) { acc, _ -> acc.enhance(enhancer) }
 
     fun List<String>.prettyPrint() = forEach {
         println(
