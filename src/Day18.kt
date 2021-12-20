@@ -44,7 +44,6 @@ fun main() {
         val depth = this[index].depth
         this[index] = SnailfishNumber(value / 2, depth + 1)
         this.add(index + 1, SnailfishNumber((value + 1) / 2, depth + 1))
-
     }
 
     fun MutableList<SnailfishNumber>.reduce(): MutableList<SnailfishNumber> {
