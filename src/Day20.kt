@@ -14,7 +14,7 @@ fun main() {
                 add(0, char.toString().repeat(this[0].length))
             }
 
-    fun List<Char>.enhance(enhancer: String) = enhancer[joinToString("").toInt(2)]
+    fun List<Char>.recalculate(enhancer: String) = enhancer[joinToString("").toInt(2)]
 
     fun List<String>.enhance(enhancer: String): List<String> {
         val defaultChar = this.first().first()
@@ -22,7 +22,7 @@ fun main() {
         val enhancedImage = paddedImage.mapIndexed { row, string ->
             string.mapIndexed { col, _ ->
                 paddedImage.findNeighbours(row, col, defaultChar)
-                    .enhance(enhancer)
+                    .recalculate(enhancer)
             }.joinToString("")
         }
         return enhancedImage
