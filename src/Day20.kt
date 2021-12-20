@@ -50,7 +50,12 @@ fun main() {
         return new.enhanceTimes(enhancer, times - 1)
     }
 
-    fun List<String>.prettyPrint() = forEach { println(it.replace('0', '.').replace('1', '#')) }
+    fun List<String>.prettyPrint() = forEach {
+        println(
+            it.replace('0', '.')
+                .replace('1', '#')
+        )
+    }
 
     fun String.toBinary() = replace('.', '0').replace('#', '1')
 
