@@ -12,6 +12,7 @@ fun main() {
             if (row < this.size - 1) this[row + 1][col] else char,
             if (row < this.size - 1 && col < this[0].lastIndex) this[row + 1][col + 1] else char
         )
+
     fun List<String>.padWithChar(char: Char): List<String> =
         map { it.padStart(it.length + 2, char).padEnd(it.length + 4, char) }
             .toMutableList()
@@ -21,6 +22,7 @@ fun main() {
                     add(0, char.toString().repeat(this[0].length))
                 }
             }
+
     fun List<Char>.enhance(enhancer: String): Char {
         val index = this.joinToString("").toInt(2)
         return enhancer[index]
