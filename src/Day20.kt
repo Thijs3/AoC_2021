@@ -14,13 +14,11 @@ fun main() {
         )
 
     fun List<String>.padWithChar(char: Char): List<String> =
-        map { it.padStart(it.length + 2, char).padEnd(it.length + 4, char) }
+        map { it.padStart(it.length + 1, char).padEnd(it.length + 2, char) }
             .toMutableList()
             .apply {
-                repeat(2) {
-                    add(char.toString().repeat(this[0].length))
-                    add(0, char.toString().repeat(this[0].length))
-                }
+                add(char.toString().repeat(this[0].length))
+                add(0, char.toString().repeat(this[0].length))
             }
 
     fun List<Char>.enhance(enhancer: String): Char {
@@ -59,9 +57,9 @@ fun main() {
     fun solve(input: List<String>, times: Int): Int {
         val enhancer = input[0].toBinary()
         val image = input.subList(2, input.size).map { it.toBinary() }
-        val paddedImage = image.padWithChar('0')
+        val paddedImage = image.padWithChar('0').padWithChar('0')
         val enhanced = paddedImage.enhanceTimes(enhancer, times)
-        // enhanced.prettyPrint() // sadly does not look like much :(
+        //enhanced.prettyPrint() // sadly does not look like much :(
         return enhanced.countLightPixels()
     }
     fun part1(input: List<String>): Int = solve(input, 2)
