@@ -34,17 +34,15 @@ fun main() {
     }
 
     data class Cube(val x: Pair<Long, Long>, val y: Pair<Long, Long>, val z: Pair<Long, Long>) {
-        private val removedCubes = mutableListOf<Cube>()
+        private val negatedCubes = mutableListOf<Cube>()
         fun volume(): Long =
-            (x.second - x.first + 1) * (y.second - y.first + 1) * (z.second - z.first + 1) - removedCubes.sumOf { it.volume() }
+            (x.second - x.first + 1) * (y.second - y.first + 1) * (z.second - z.first + 1) - negatedCubes.sumOf { it.volume() }
 
         fun negate(cube: Cube) {
             val overlap = calculateOverlap(cube) ?: return
 
-            for (removedCube in removedCubes) {
-                removedCube.negate(overlap)
-            }
-            removedCubes.add(overlap)
+            negatedCubes.forEach { it.negate(overlap) }
+            negatedCubes.add(overlap)
         }
         fun calculateOverlap(other: Cube): Cube? {
             if (this.x.first > other.x.second || this.x.second < other.x.first ||
