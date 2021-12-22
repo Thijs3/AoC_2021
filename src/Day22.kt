@@ -38,11 +38,11 @@ fun main() {
         fun volume(): Long =
             (x.second - x.first + 1) * (y.second - y.first + 1) * (z.second - z.first + 1) - removedCubes.sumOf { it.volume() }
 
-        fun remove(cube: Cube) {
+        fun negate(cube: Cube) {
             val overlap = calculateOverlap(cube) ?: return
 
             for (removedCube in removedCubes) {
-                removedCube.remove(overlap)
+                removedCube.negate(overlap)
             }
             removedCubes.add(overlap)
         }
@@ -74,9 +74,9 @@ fun main() {
     fun part2(input: List<String>): Long {
         val instructions = readInstructions2(input)
         val onCubes = mutableListOf<Cube>()
-        for (instruction in instructions) {
-            for (onCube in onCubes) {
-                onCube.remove(instruction.cube)
+        instructions.forEach { instruction ->
+            onCubes.forEach { cube ->
+                cube.negate(instruction.cube)
             }
             if (instruction.on) onCubes.add(instruction.cube)
         }
