@@ -6,7 +6,6 @@ fun main() {
 
         fun negate(cube: Cube) {
             val overlap = calculateOverlap(cube) ?: return
-
             negatedCubes.forEach { it.negate(overlap) }
             negatedCubes.add(overlap)
         }
@@ -15,10 +14,10 @@ fun main() {
                 this.y.first > other.y.second || this.y.second < other.y.first ||
                 this.z.first > other.z.second || this.z.second < other.z.first
             ) return null
-            val newX = listOf(this.x.first, this.x.second, other.x.first, other.x.second).sorted()
-            val newY = listOf(this.y.first, this.y.second, other.y.first, other.y.second).sorted()
-            val newZ = listOf(this.z.first, this.z.second, other.z.first, other.z.second).sorted()
-            return Cube(Pair(newX[1], newX[2]), Pair(newY[1], newY[2]), Pair(newZ[1], newZ[2]))
+            val newX = listOf(this.x.first, this.x.second, other.x.first, other.x.second).sorted().take(3).drop(1).zipWithNext().single()
+            val newY = listOf(this.y.first, this.y.second, other.y.first, other.y.second).sorted().take(3).drop(1).zipWithNext().single()
+            val newZ = listOf(this.z.first, this.z.second, other.z.first, other.z.second).sorted().take(3).drop(1).zipWithNext().single()
+            return Cube(newX, newY, newZ)
         }
     }
     data class Instruction(val on: Boolean, val cube: Cube)
